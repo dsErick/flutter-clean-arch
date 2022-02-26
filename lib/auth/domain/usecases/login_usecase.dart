@@ -3,7 +3,7 @@ import 'package:clean_architecture/auth/domain/domain.dart';
 class LoginUsecase implements LoginUsecaseContract {
   final AuthRepositoryContract repository;
 
-  LoginUsecase(this.repository);
+  const LoginUsecase(this.repository);
 
   @override
   Future<LoggedUserEntity> call(CredentialsParams params) async {
@@ -15,6 +15,10 @@ class LoginUsecase implements LoginUsecaseContract {
       throw AuthException('Senha inválida.');
     }
 
-    return await repository.login(params);
+    try {
+      return await repository.login(params);
+    } catch (e) {
+      throw AuthException('Repository error.');
+    }
   }
 }

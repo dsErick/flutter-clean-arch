@@ -8,5 +8,5 @@ class CredentialsParams {
   final String email;
   final String password;
 
-  CredentialsParams({ required this.email, required this.password });
+  const CredentialsParams({ required this.email, required this.password });
 }
