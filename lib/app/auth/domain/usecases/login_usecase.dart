@@ -1,13 +1,11 @@
 import 'package:clean_architecture/app/auth/domain/domain.dart';
+import 'package:clean_architecture/core/usecases/usecase.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class LoginUsecaseContract {
-  Future<LoggedUserEntity> call(CredentialsParams params);
-}
-
-class LoginUsecase implements LoginUsecaseContract {
+class LoginUseCase implements UseCase<LoggedUserEntity, CredentialsParams> {
   final AuthRepositoryContract repository;
 
-  const LoginUsecase(this.repository);
+  const LoginUseCase(this.repository);
 
   @override
   Future<LoggedUserEntity> call(CredentialsParams params) async {
@@ -27,9 +25,12 @@ class LoginUsecase implements LoginUsecaseContract {
   }
 }
 
-class CredentialsParams {
+class CredentialsParams extends Equatable {
   final String email;
   final String password;
 
   const CredentialsParams({ required this.email, required this.password });
+
+  @override
+  List<Object> get props => [email, password];
 }
