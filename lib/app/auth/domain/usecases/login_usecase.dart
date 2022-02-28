@@ -1,5 +1,6 @@
 import 'package:clean_architecture/app/auth/domain/domain.dart';
-import 'package:clean_architecture/core/usecases/usecase.dart';
+import 'package:clean_architecture/core/core.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 class LoginUseCase implements UseCase<LoggedUserEntity, CredentialsParams> {
@@ -8,20 +9,16 @@ class LoginUseCase implements UseCase<LoggedUserEntity, CredentialsParams> {
   const LoginUseCase(this.repository);
 
   @override
-  Future<LoggedUserEntity> call(CredentialsParams params) async {
+  Future<Either<Failure, LoggedUserEntity>> call(CredentialsParams params) async {
     if (params.email.isEmpty) {
-      throw const AuthException('Email inválido.');
+      return const Left(AuthFailure('Email inválido.'));
     }
 
     if (params.password.isEmpty) {
-      throw const AuthException('Senha inválida.');
+      return const Left(AuthFailure('Senha inválida.'));
     }
 
-    try {
-      return await repository.login(params);
-    } catch (e) {
-      throw const AuthException('Repository error.');
-    }
+    return await repository.login(params);
   }
 }
 
