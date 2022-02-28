@@ -4,7 +4,7 @@ import 'package:clean_architecture/app/auth/presentation/bloc/bloc.dart';
 import 'package:clean_architecture/core/errors/failures.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final LoginUseCase loginUsecase;
+  final LoginUseCaseContract loginUsecase;
 
   AuthBloc(this.loginUsecase) : super(const AuthInitialState()) {
     on<AuthLoginEvent>(_login);

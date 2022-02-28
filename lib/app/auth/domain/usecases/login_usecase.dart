@@ -3,7 +3,9 @@ import 'package:clean_architecture/core/core.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class LoginUseCase implements UseCase<LoggedUserEntity, CredentialsParams> {
+abstract class LoginUseCaseContract implements UseCase<LoggedUserEntity, CredentialsParams> {}
+
+class LoginUseCase implements LoginUseCaseContract {
   final AuthRepositoryContract repository;
 
   const LoginUseCase(this.repository);

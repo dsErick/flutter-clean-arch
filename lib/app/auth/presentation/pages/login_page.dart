@@ -1,5 +1,4 @@
 import 'package:clean_architecture/app/auth/auth.dart';
-import 'package:clean_architecture/app/auth/presentation/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +14,10 @@ class LoginPage extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: MultiProvider(
             providers: [
-              Provider<AuthDatasourceContract>(create: (context) => AuthDatasourceImpl()),
+              Provider<AuthDatasourceContract>(create: (_) => AuthDatasourceImpl()),
               Provider<AuthRepositoryContract>(create: (context) => AuthRespositoryImpl(context.read<AuthDatasourceContract>())),
-              Provider<LoginUseCase>(create: (context) => LoginUseCase(context.read<AuthRepositoryContract>())),
-              BlocProvider<AuthBloc>(create: (context) => AuthBloc(context.read<LoginUseCase>())),
+              Provider<LoginUseCaseContract>(create: (context) => LoginUseCase(context.read<AuthRepositoryContract>())),
+              BlocProvider<AuthBloc>(create: (context) => AuthBloc(context.read<LoginUseCaseContract>())),
             ],
             child: const LoginForm(),
           ),
