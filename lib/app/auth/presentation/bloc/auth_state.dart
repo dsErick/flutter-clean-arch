@@ -1,3 +1,4 @@
+import 'package:clean_architecture/app/auth/domain/entities/logged_user_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
@@ -19,10 +20,16 @@ class AuthErrorState extends AuthState {
   final String message;
 
   const AuthErrorState(this.message);
+
   @override
   List<Object> get props => [message];
 }
 
 class AuthSuccessState extends AuthState {
-  const AuthSuccessState();
+  final LoggedUserEntity user;
+
+  const AuthSuccessState(this.user);
+
+  @override
+  List<Object> get props => [user];
 }

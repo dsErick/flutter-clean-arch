@@ -6,6 +6,6 @@ class AuthDatasourceImpl implements AuthDatasourceContract {
   Future<LoggedUserModel> login(CredentialsParams params) async {
     // Faz o request pra API
 
-    return LoggedUserModel.fromJson('{"name": "Teste", "email": "teste@teste.com"}');
+    return LoggedUserModel.fromJson('{"name": "Teste", "email": "${params.email}"}');
   }
 }

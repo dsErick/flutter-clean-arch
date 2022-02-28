@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:clean_architecture/app/auth/domain/domain.dart';
 import 'package:clean_architecture/app/auth/presentation/bloc/bloc.dart';
+import 'package:clean_architecture/core/errors/failures.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUsecase;
@@ -19,11 +20,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     emit(const AuthLoadingState());
-    print('loading');
 
-    await Future.delayed(const Duration(seconds: 1));
+    final result = await loginUsecase(CredentialsParams(email: event.email, password: event.password));
 
-    print('logged');
-    emit(const AuthSuccessState());
+    result.fold((Failure failure) {
+      // print(failure);
+
+      if (failure is AuthFailure) {
+        return emit(AuthErrorState(failure.message));
+      }
+
+      if (failure is ServerFailure) {
+        return emit(const AuthErrorState('Algo de enesperado ocorreu ao efetuar o login.'));
+      }
+
+      emit(const AuthErrorState('Deu ruim.'));
+    }, (LoggedUserEntity entity) {
+      emit(AuthSuccessState(entity));
+    });
   }
 }

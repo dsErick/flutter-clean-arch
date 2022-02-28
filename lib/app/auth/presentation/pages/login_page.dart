@@ -56,7 +56,16 @@ class _LoginFormState extends State<LoginForm> {
         const Spacer(flex: 1),
 
         BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {},
+          listener: (BuildContext context, AuthState state) {
+            if (state is AuthSuccessState) {
+              // Redireciona o usuário
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+                content: Text('Usuário logado'),
+              ));
+            }
+          },
           builder: (BuildContext context, AuthState state) {
             if (state is AuthErrorState) {
               return Text(
